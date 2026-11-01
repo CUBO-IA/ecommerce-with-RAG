@@ -7,8 +7,7 @@ import { type ChatMessage, chatTools, SYSTEM_PROMPT } from "@/src/ai/chat";
 
 export const maxDuration = 60;
 
-const MAX_MESSAGES = 20;
-const bodySchema = z.object({ messages: z.array(z.unknown()).min(1).max(MAX_MESSAGES), path: z.string().max(200).optional() });
+const bodySchema = z.object({ messages: z.array(z.unknown()).min(1), path: z.string().max(200).optional() });
 
 const invalid = () => Response.json({ error: "Historial inválido" }, { status: 400 });
 

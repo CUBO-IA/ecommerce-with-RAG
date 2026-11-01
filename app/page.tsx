@@ -7,12 +7,22 @@ import { formatPrice } from "@/src/products/format";
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 p-4 sm:p-8">
-      <h1 className="mb-6 text-2xl font-semibold">Tienda</h1>
-      <Suspense fallback={<p>Cargando productos...</p>}>
-        <ProductGrid />
-      </Suspense>
-    </main>
+    <>
+      <section className="bg-promo text-white">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-12 sm:px-8 sm:py-20">
+          <p className="text-sm font-bold tracking-wide uppercase">Campaña de temporada</p>
+          <h1 className="max-w-3xl font-heading text-4xl leading-none font-bold uppercase sm:text-6xl">
+            Ofertas que renuevan tu hogar
+          </h1>
+        </div>
+      </section>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-8">
+        <h2 className="mb-6 font-heading text-2xl font-bold text-charcoal">Lo último para tu hogar</h2>
+        <Suspense fallback={<p className="text-muted">Cargando productos...</p>}>
+          <ProductGrid />
+        </Suspense>
+      </main>
+    </>
   );
 }
 
@@ -22,17 +32,17 @@ async function ProductGrid() {
 
   if (products.length === 0) {
     return (
-      <p>
+      <p className="text-charcoal">
         Aún no hay productos.{" "}
-        <Link href="/admin/products" className="font-medium underline">Agregar un producto</Link>
+        <Link href="/admin/products" className="font-bold text-navy underline">Agregar un producto</Link>
       </p>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
       {products.map((p) => (
-        <Link key={p.id} href={`/product/${p.id}`} className="contents">
+        <Link key={p.id} href={`/product/${p.id}`} className="flex flex-col">
           <ProductCard
             name={p.name}
             description={p.description}

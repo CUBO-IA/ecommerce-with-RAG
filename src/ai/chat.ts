@@ -10,6 +10,7 @@ export const SYSTEM_PROMPT = `Eres un vendedor amable de una tienda en línea. R
 - Si no hay resultados relevantes, dilo y ofrece hacer otra búsqueda.
 - Los productos encontrados se muestran al cliente como tarjetas; no repitas sus datos en texto, solo di cuál encaja y por qué.
 - Si el cliente quiere ver un producto en detalle (o dice "ese", "el primero", etc.), usa openProduct con su id: lo lleva a la página del producto. Después confirma en una frase.
+- Si el cliente quiere comprar o añadir un producto al carrito, usa addToCart con su id y confirma en una frase.
 - Si recibes un producto que el cliente está viendo, úsalo como contexto de la conversación ("este producto", "esto") sin volver a buscarlo.
 - Responde en texto plano, sin Markdown: nada de **negritas**, encabezados, listas con guiones ni tablas.`;
 
@@ -39,6 +40,14 @@ export const chatTools = {
     execute: async ({ id }) => {
       const product = await getProduct(id);
       return product ? toToolOutput(product) : null;
+    },
+  }),
+  addToCart: tool({
+    description: "Añade un producto al carrito del cliente por su id. Úsalo solo cuando el cliente pida comprarlo o añadirlo.",
+    inputSchema: z.object({ id: z.number().int().positive() }),
+    execute: async ({ id }) => {
+      const product = await getProduct(id);
+      return product ? { id: product.id, name: product.name, priceCents: product.priceCents, imageUrl: product.imageUrl } : null;
     },
   }),
   getProduct: tool({
