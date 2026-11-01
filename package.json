@@ -6,12 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --env-file=.env.local --test src/products/nearest.test.mts",
+    "postinstall": "prisma skills sync || exit 0"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.94",
+    "@ai-sdk/react": "^4.0.163",
+    "@aws-sdk/client-s3": "^3.1161.0",
+    "@openrouter/sdk": "^1.5.33",
+    "@prisma/orm-extension-pgvector": "8.0.0-rc.21",
+    "@prisma/orm-postgres": "8.0.0-rc.21",
+    "@prisma/orm-target-postgres": "8.0.0-rc.21",
+    "ai": "^7.0.159",
+    "dotenv": "^18.0.9",
     "next": "16.4.3",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "temporal-polyfill": "^1.0.6",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
@@ -20,6 +33,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "prisma": "8.0.0-rc.29",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
