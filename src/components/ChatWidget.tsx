@@ -6,12 +6,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "@/src/ai/chat";
-import { useCart } from "@/src/cart/CartProvider";
+import { readStorage, useCart } from "@/src/cart/CartProvider";
 import { ProductCard } from "./ProductCard";
 
 const transport = new DefaultChatTransport<ChatMessage>({
   api: "/api/chat",
-  body: () => ({ path: window.location.pathname }),
+  body: () => ({
+    path: window.location.pathname,
+    cart: readStorage().map(({ id, quantity }) => ({ id, quantity })),
+  }),
 });
 
 export function ChatWidget() {

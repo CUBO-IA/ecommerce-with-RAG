@@ -49,7 +49,7 @@ function reducer({ items, ready }: State, action: Action): State {
 }
 
 // ponytail: sin validación de esquema; el precio guardado es un snapshot y el checkout debería revalidarlo contra el servidor.
-function readStorage(): CartItem[] {
+export function readStorage(): CartItem[] {
   try {
     const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]");
     return Array.isArray(raw) ? raw.filter((i) => typeof i?.id === "number" && i.quantity > 0) : [];

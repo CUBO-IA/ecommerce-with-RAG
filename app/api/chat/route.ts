@@ -3,11 +3,15 @@ import { z } from "zod";
 import { getProduct } from "@/src/products";
 import { formatPrice } from "@/src/products/format";
 import { haiku } from "@/src/ai/anthropic";
-import { type ChatMessage, chatTools, SYSTEM_PROMPT } from "@/src/ai/chat";
+import { type ChatMessage, cartSchema, chatTools, SYSTEM_PROMPT } from "@/src/ai/chat";
 
 export const maxDuration = 60;
 
-const bodySchema = z.object({ messages: z.array(z.unknown()).min(1), path: z.string().max(200).optional() });
+const bodySchema = z.object({
+  messages: z.array(z.unknown()).min(1),
+  path: z.string().max(200).optional(),
+  cart: cartSchema.optional(),
+});
 
 const invalid = () => Response.json({ error: "Historial inválido" }, { status: 400 });
 
@@ -33,6 +37,7 @@ export async function POST(req: Request) {
     instructions: SYSTEM_PROMPT + context,
     messages: await convertToModelMessages(messages, { tools: chatTools }),
     tools: chatTools,
+    toolsContext: { viewCart: { cart: body.data.cart ?? [] } },
     stopWhen: isStepCount(4),
   });
 
