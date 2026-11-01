@@ -1,0 +1,15 @@
+// use prisma-8
+
+types {
+  Embedding2048 = pgvector.Vector(length: 2048)
+}
+
+model Product {
+  id          Int             @id @default(autoincrement())
+  name        String
+  description String
+  priceCents  Int
+  imageKey    String
+  embedding   Embedding2048?
+  createdAt   DateTime        @default(now())
+}
