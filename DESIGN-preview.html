@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Siman.com (El Salvador) Preview</title>
+    <meta name="color-scheme" content="light" />
+    <style>
+      :root {
+        --page-bg: #FFFFFF;
+        --page-bg-muted: color-mix(in srgb, #FFFFFF 50%, #A83338);
+        --surface-bg: #A83338;
+        --surface-bg-muted: color-mix(in srgb, #A83338 50%, #FFFFFF);
+        --surface-border: #ebebeb;
+        --surface-border-strong: color-mix(in srgb, #3F3F40 14.000000000000002%, #FFFFFF);
+        --surface-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 8px -8px rgba(0, 0, 0, 0.04);
+        --surface-shadow-soft: 0 0 0 1px #ebebeb;
+        --ink: #3F3F40;
+        --muted: #000000;
+        --subtle: color-mix(in srgb, #3F3F40 46%, #FFFFFF);
+        --accent: #A83338;
+        --font-body: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        --font-display: ClanOT, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, monospace;
+        --body-size: 16px;
+        --body-line: 20px;
+        --body-weight: 400;
+        --label-size: 12px;
+        --label-line: 20px;
+        --label-track: 0.04em;
+        --title-size: 28px;
+        --title-line: 32px;
+        --title-track: -0.03em;
+        --section-size: 24px;
+        --section-line: 32px;
+        --section-track: -0.02em;
+        --source-size: 13px;
+        --source-line: 20px;
+        --space-1: 8px;
+        --space-2: 12px;
+        --space-3: 16px;
+        --space-4: 24px;
+        --space-5: 32px;
+        --space-6: 40px;
+        --radius-panel: 8px;
+        --radius-card: 8px;
+        --radius-micro: 4px;
+        --radius-pill: 100px;
+        --button-height: 40px;
+        --button-font-size: 16px;
+        --button-weight: 700;
+        --button-radius: 100px;
+        --secondary-button-radius: 4px;
+        --layout-gap: 24px;
+        --page-padding: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: var(--body-size);
+        font-weight: var(--body-weight);
+        line-height: var(--body-line);
+        background:
+          radial-gradient(circle at top, color-mix(in srgb, var(--accent) 8%, transparent), transparent 30%),
+          linear-gradient(180deg, var(--page-bg) 0%, var(--page-bg-muted) 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image:
+          linear-gradient(color-mix(in srgb, var(--surface-border) 56%, transparent) 1px, transparent 1px),
+          linear-gradient(90deg, color-mix(in srgb, var(--surface-border) 56%, transparent) 1px, transparent 1px);
+        background-size: 100% calc(48px), calc(48px) 100%;
+        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 88%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(1440px, calc(100vw - (var(--page-padding) * 2)));
+        margin: 0 auto;
+        padding: var(--page-padding) 0 calc(var(--page-padding) * 1.2);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(340px, 0.92fr) minmax(420px, 1fr);
+        gap: var(--layout-gap);
+        align-items: start;
+      }
+
+      .stack {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .panel {
+        overflow: hidden;
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-panel);
+        background: linear-gradient(180deg, color-mix(in srgb, var(--surface-bg) 88%, white) 0%, var(--surface-bg) 100%);
+        box-shadow: var(--surface-shadow);
+      }
+
+      .panel-inner {
+        padding: var(--space-4);
+      }
+
+      .hero-card {
+        position: relative;
+      }
+
+      .hero-card::before {
+        content: "";
+        position: absolute;
+        left: var(--space-4);
+        right: var(--space-4);
+        top: 0;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #D02D37 0%, #A83338 33%, #A93239 67%, #000000 100%);
+      }
+
+      .eyebrow {
+        margin-bottom: var(--space-2);
+        color: var(--muted);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        letter-spacing: var(--label-track);
+        text-transform: uppercase;
+      }
+
+      .site-title,
+      .section-title {
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-weight: 600;
+      }
+
+      .site-title {
+        font-size: var(--title-size);
+        line-height: var(--title-line);
+        letter-spacing: var(--title-track);
+      }
+
+      .descriptor {
+        margin: var(--space-2) 0 0;
+        max-width: 42ch;
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .summary {
+        margin: var(--space-3) 0 0;
+        max-width: 56ch;
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin: var(--space-3) 0 0;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: calc(8px * 3);
+        padding: 0 var(--space-2);
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-pill);
+        background: var(--surface-bg);
+        color: var(--ink);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .observed-link {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-top: var(--space-4);
+        padding-top: var(--space-3);
+        border-top: 1px solid var(--surface-border);
+        color: var(--muted);
+        font-size: var(--label-size);
+        overflow-wrap: anywhere;
+      }
+
+      .observed-link::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+      }
+
+      .section-title {
+        font-size: var(--section-size);
+        line-height: var(--section-line);
+        letter-spacing: var(--section-track);
+      }
+
+      .section-subtitle {
+        margin: var(--space-2) 0 var(--space-4);
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .palette-grid,
+      .theme-mode-grid,
+      .type-list,
+      .component-card,
+      .prompt-list,
+      .mini-grid,
+      .token-table {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .palette-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-2);
+      }
+
+      .palette-row.neutral-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .theme-mode-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3);
+      }
+
+      .theme-mode-card {
+        display: grid;
+        gap: var(--space-2);
+        padding: var(--space-3);
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-card);
+        background: color-mix(in srgb, var(--surface-bg) 92%, white);
+      }
+
+      .theme-mode-card.is-dark {
+        background: #111111;
+        color: #f4f4f4;
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      .theme-mode-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+      }
+
+      .theme-mode-label {
+        color: var(--subtle);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        letter-spacing: var(--label-track);
+        text-transform: uppercase;
+      }
+
+      .theme-mode-card.is-dark .theme-mode-label {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .theme-mode-note {
+        margin: 0;
+        color: var(--muted);
+        font-size: calc(var(--body-size) - 1px);
+        line-height: var(--body-line);
+      }
+
+      .theme-mode-card.is-dark .theme-mode-note {
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .theme-swatch-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--space-2);
+      }
+
+      .theme-swatch {
+        display: grid;
+        gap: 6px;
+      }
+
+      .theme-swatch-box {
+        height: 72px;
+        border-radius: calc(var(--radius-card) - 4px);
+        border: 1px solid color-mix(in srgb, var(--surface-border-strong) 75%, transparent);
+      }
+
+      .theme-mode-card.is-dark .theme-swatch-box {
+        border-color: rgba(255, 255, 255, 0.14);
+      }
+
+      .theme-swatch-name {
+        color: inherit;
+        font-size: 12px;
+        line-height: 1.3;
+      }
+
+      .theme-swatch-value {
+        color: var(--subtle);
+        font-size: 11px;
+        line-height: 1.3;
+      }
+
+      .theme-mode-card.is-dark .theme-swatch-value {
+        color: rgba(255, 255, 255, 0.62);
+      }
+
+      .swatch {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .swatch-box {
+        min-height: calc(8px * 12);
+        border-radius: var(--radius-card);
+        border: 1px solid color-mix(in srgb, var(--surface-border-strong) 75%, transparent);
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 4%, transparent);
+      }
+
+      .swatch-label,
+      .token-heading,
+      .prompt-card strong,
+      .card-preview h4 {
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+        font-weight: 600;
+      }
+
+      .swatch-meta,
+      .type-metrics,
+      .mini-label,
+      .copy-state,
+      .file-tab,
+      .ghost-button,
+      .segmented button {
+        color: var(--muted);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+      }
+
+      .type-row {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr) auto;
+        gap: var(--space-2);
+        align-items: baseline;
+        padding: var(--space-2) 0;
+        border-top: 1px solid var(--surface-border);
+      }
+
+      .type-row:first-child,
+      .mini-row:first-child,
+      .token-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .type-role {
+        color: var(--muted);
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+        letter-spacing: var(--label-track);
+        text-transform: uppercase;
+      }
+
+      .type-sample {
+        color: var(--ink);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .split-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+      }
+
+      .token-row,
+      .mini-row {
+        display: grid;
+        gap: var(--space-2);
+        align-items: start;
+        padding-top: var(--space-2);
+        border-top: 1px solid var(--surface-border);
+      }
+
+      .token-row {
+        grid-template-columns: 1fr auto;
+      }
+
+      .mini-row {
+        grid-template-columns: 88px minmax(0, 1fr);
+      }
+
+      .mini-content,
+      .prompt-card p,
+      .card-preview p {
+        color: var(--muted);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+      }
+
+      .radius-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-2);
+      }
+
+      .radius-card,
+      .prompt-card {
+        padding: var(--space-3);
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-card);
+        background: var(--surface-bg-muted);
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .radius-demo {
+        aspect-ratio: 1;
+        width: 100%;
+        border: 1px solid var(--surface-border-strong);
+        background: var(--surface-bg);
+      }
+
+      .radius-name {
+        margin-top: var(--space-2);
+        color: var(--ink);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+        font-weight: 600;
+      }
+
+      .radius-value {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: var(--label-size);
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: var(--button-height);
+        padding: 0 var(--space-3);
+        border-radius: var(--button-radius);
+        font-family: var(--font-body);
+        font-size: var(--button-font-size);
+        font-weight: var(--button-weight);
+        line-height: 1;
+        letter-spacing: normal;
+      }
+
+      .cta-primary {
+        min-height: 40px;
+        border: 1px solid transparent;
+        background: #D02D37;
+        color: #FFFFFF;
+        border-radius: 100px;
+      }
+
+      .cta-secondary {
+        min-height: 40px;
+        font-size: 12px;
+        font-weight: 700;
+        border: 1px solid #051C2C;
+        background: #EFEFEF;
+        color: #051C2C;
+        border-radius: 4px;
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .card-preview {
+        padding: 16px;
+        border-radius: 8px;
+        border: none.;
+        background: var(--surface-bg);
+        color: var(--ink);
+        box-shadow: none.;
+      }
+
+      .card-preview h4 {
+        margin: 0 0 var(--space-1);
+      }
+
+      .source-shell {
+        position: sticky;
+        top: var(--page-padding);
+      }
+
+      .source-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+        padding: var(--space-3) var(--space-4) var(--space-2);
+        border-bottom: 1px solid var(--surface-border);
+      }
+
+      .file-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px var(--space-3);
+      }
+
+      .file-tab {
+        padding: 0 0 var(--space-2);
+        border-bottom: 2px solid transparent;
+      }
+
+      .file-tab.active {
+        color: var(--ink);
+        border-bottom-color: var(--ink);
+        font-weight: 600;
+      }
+
+      .source-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-2);
+        padding: var(--space-2) var(--space-4);
+        border-bottom: 1px solid var(--surface-border);
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 3px;
+        border: 1px solid var(--surface-border);
+        border-radius: var(--radius-pill);
+        background: var(--surface-bg-muted);
+      }
+
+      .segmented button {
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: transparent;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+
+      .segmented button.is-active {
+        background: var(--surface-bg);
+        color: var(--ink);
+        box-shadow: var(--surface-shadow-soft);
+      }
+
+      .toolbar-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-left: auto;
+      }
+
+      .ghost-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border: 1px solid var(--surface-border);
+        border-radius: 4px;
+        background: var(--surface-bg);
+        box-shadow: var(--surface-shadow-soft);
+        cursor: pointer;
+      }
+
+      .source-body {
+        max-height: calc(100vh - (var(--page-padding) * 2) - 120px);
+        overflow: auto;
+      }
+
+      .source-view,
+      .rendered-view {
+        margin: 0;
+        padding: var(--space-4);
+      }
+
+      .source-view {
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: var(--source-size);
+        line-height: var(--source-line);
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: var(--surface-bg);
+      }
+
+      .rendered-view {
+        color: var(--ink);
+        font-family: var(--font-body);
+        font-size: var(--body-size);
+        line-height: var(--body-line);
+        background: var(--surface-bg);
+      }
+
+      .rendered-view[hidden],
+      .source-view[hidden] {
+        display: none;
+      }
+
+      .rendered-view h2,
+      .rendered-view h3 {
+        margin: var(--space-4) 0 var(--space-2);
+        color: var(--ink);
+        font-family: var(--font-display);
+        font-weight: 600;
+      }
+
+      .rendered-view h2 {
+        font-size: var(--section-size);
+        line-height: var(--section-line);
+        letter-spacing: var(--section-track);
+      }
+
+      .rendered-view h2:first-child {
+        margin-top: 0;
+      }
+
+      .rendered-view h3 {
+        color: var(--muted);
+        font-size: calc(28px - 4px);
+        line-height: var(--title-line);
+      }
+
+      .rendered-view p,
+      .rendered-view li {
+        color: var(--muted);
+      }
+
+      .rendered-view ul,
+      .rendered-view ol {
+        margin: 0 0 var(--space-3) 20px;
+        padding: 0;
+      }
+
+      .rendered-view table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: var(--space-2) 0 var(--space-4);
+      }
+
+      .rendered-view th,
+      .rendered-view td {
+        padding: var(--space-2) var(--space-2);
+        border: 1px solid var(--surface-border);
+        text-align: left;
+        vertical-align: top;
+        font-size: var(--label-size);
+        line-height: var(--label-line);
+      }
+
+      .rendered-view th {
+        color: var(--ink);
+        background: var(--surface-bg-muted);
+      }
+
+      .rendered-view code {
+        padding: 0.14em 0.4em;
+        border-radius: 4px;
+        background: var(--surface-bg-muted);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 0.92em;
+      }
+
+      @media (max-width: 1120px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .source-shell {
+          position: relative;
+          top: 0;
+        }
+
+        .source-body {
+          max-height: none;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .shell {
+          width: min(100vw - (12px * 2), 100%);
+          padding-top: 12px;
+        }
+
+        .panel-inner,
+        .source-view,
+        .rendered-view {
+          padding-left: var(--space-3);
+          padding-right: var(--space-3);
+        }
+
+        .palette-row,
+        .palette-row.neutral-row,
+        .theme-mode-grid,
+        .theme-swatch-row,
+        .split-card,
+        .radius-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .type-row,
+        .mini-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="layout">
+        <section class="stack">
+          <article class="panel hero-card">
+            <div class="panel-inner">
+              <div class="eyebrow">Design Preview</div>
+              <h1 class="site-title">Siman.com (El Salvador)</h1>
+              <p class="descriptor">Tienda online de retail masivo con estética promocional y comercial.</p>
+              <div class="chip-row"><span class="chip">Cabecera roja sólida con buscado...</span><span class="chip">Barra de categorías horizontal d...</span><span class="chip">Banners de campaña a ancho compl...</span><span class="chip">Tipografía sans-serif neutra (Ro...</span><span class="chip">Botones de acción en rojo con fo...</span></div>
+              <p class="summary">Tienda online de retail masivo con estética promocional y comercial. Densa, saturada, orientada a ofertas: bandas de anuncios rojos, banners de campaña y un hero con producto y precio grande.</p>
+              <p class="section-subtitle">Design board, not a clone. Missing tokens use presentation defaults; type samples may be resized and custom fonts need local availability. These defaults are not observations about the source website.</p>
+              <a class="observed-link" href="https://sv.siman.com/" target="_blank" rel="noreferrer">https://sv.siman.com/</a>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Palette</h2>
+              <p class="section-subtitle">Roles and neutrals rendered using the extracted design system rather than a separate display theme.</p>
+              <div class="palette-grid"><div class="palette-row"><div class="swatch">
+    <div class="swatch-box" style="background:#D02D37;"></div>
+    <div class="swatch-label">Promo Red</div>
+    <div class="swatch-meta">
+      <span>#D02D37 (rgb 208, 45, 55)</span>
+      <span>Primary action</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#A83338;"></div>
+    <div class="swatch-label">Header Red</div>
+    <div class="swatch-meta">
+      <span>#A83338 (rgb 168, 51, 56)</span>
+      <span>Brand surface</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#A93239;"></div>
+    <div class="swatch-label">Brand Wine</div>
+    <div class="swatch-meta">
+      <span>#A93239 (rgb 169, 50, 57)</span>
+      <span>Accent</span>
+    </div>
+  </div></div><div class="palette-row neutral-row"><div class="swatch">
+    <div class="swatch-box" style="background:#000000;"></div>
+    <div class="swatch-label">Ink Black</div>
+    <div class="swatch-meta">
+      <span>#000000</span>
+      <span>Text</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#3F3F40;"></div>
+    <div class="swatch-label">Charcoal</div>
+    <div class="swatch-meta">
+      <span>#3F3F40 (rgb 63, 63, 64)</span>
+      <span>Text secondary</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#646464;"></div>
+    <div class="swatch-label">Gray 100</div>
+    <div class="swatch-meta">
+      <span>#646464</span>
+      <span>Text tertiary</span>
+    </div>
+  </div><div class="swatch">
+    <div class="swatch-box" style="background:#001A70;"></div>
+    <div class="swatch-label">Deep Navy</div>
+    <div class="swatch-meta">
+      <span>#001A70 (rgb 0, 26, 112)</span>
+      <span>Navy</span>
+    </div>
+  </div></div></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Theme Modes</h2>
+              <p class="section-subtitle">If the product supports light and dark themes, both modes should stay visible in the exported design system and preview.</p>
+              <div class="theme-mode-grid"><div class="theme-mode-card ">
+    <div class="theme-mode-head">
+      <strong>Light Mode</strong>
+      <span class="theme-mode-label">Light</span>
+    </div>
+    <p class="theme-mode-note">modo único inspeccionado.</p>
+    <div class="theme-swatch-row"><div class="theme-swatch">
+        <div class="theme-swatch-box" style="background:#FFFFFF;"></div>
+        <div class="theme-swatch-name">Background</div>
+        <div class="theme-swatch-value">#FFFFFF</div>
+      </div><div class="theme-swatch">
+        <div class="theme-swatch-box" style="background:#F1F1F1;"></div>
+        <div class="theme-swatch-name">Surface</div>
+        <div class="theme-swatch-value">#F1F1F1</div>
+      </div><div class="theme-swatch">
+        <div class="theme-swatch-box" style="background:#000000;"></div>
+        <div class="theme-swatch-name">Text</div>
+        <div class="theme-swatch-value">#000000</div>
+      </div><div class="theme-swatch">
+        <div class="theme-swatch-box" style="background:#D02D37;"></div>
+        <div class="theme-swatch-name">Accent</div>
+        <div class="theme-swatch-value">#D02D37</div>
+      </div></div>
+  </div></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Typography</h2>
+              <p class="section-subtitle">Documented typography with sample sizes bounded for this board. Font files are not bundled.</p>
+              <div class="type-list"><div class="type-row">
+        <div class="type-role">Hero headline</div>
+        <div
+          class="type-sample"
+          style="font-size:16px; line-height:normal; font-weight:700; letter-spacing:normal; font-family:ClanOT, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">Not observed • 700 • Not observed</div>
+      </div><div class="type-row">
+        <div class="type-role">Section heading</div>
+        <div
+          class="type-sample"
+          style="font-size:16px; line-height:normal; font-weight:700; letter-spacing:normal; font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">Not observed • 700 • Not observed</div>
+      </div><div class="type-row">
+        <div class="type-role">Body</div>
+        <div
+          class="type-sample"
+          style="font-size:16px; line-height:18.4px; font-weight:400; letter-spacing:normal; font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">16px • 400 • 18.4px (body)</div>
+      </div><div class="type-row">
+        <div class="type-role">Button</div>
+        <div
+          class="type-sample"
+          style="font-size:16px; line-height:normal; font-weight:700; letter-spacing:normal; font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">16px • 700 • Not observed</div>
+      </div><div class="type-row">
+        <div class="type-role">Nav / Category</div>
+        <div
+          class="type-sample"
+          style="font-size:16px; line-height:normal; font-weight:700; letter-spacing:normal; font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">Not observed • 700 • Not observed</div>
+      </div><div class="type-row">
+        <div class="type-role">Caption / Meta</div>
+        <div
+          class="type-sample"
+          style="font-size:12px; line-height:normal; font-weight:700; letter-spacing:normal; font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif;"
+        >
+          The quick brown fox jumps
+        </div>
+        <div class="type-metrics">12px • 700 • Not observed</div>
+      </div></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Spacing &amp; Shape</h2>
+              <p class="section-subtitle">Spacing, panel padding, and radius tokens are mapped directly from the layout rules in the markdown.</p>
+              <div class="split-card">
+    <div>
+      <h3 class="token-heading">Spacing</h3>
+      <div class="token-table"><div class="token-row">
+        <span>Base unit</span>
+        <span>Not observed</span>
+      </div></div>
+    </div>
+    <div>
+      <h3 class="token-heading">Border Radius</h3>
+      <div class="radius-grid"><div class="radius-card">
+        <div class="radius-demo" style="border-radius:4px;"></div>
+        <div class="radius-name">Micro utility</div>
+        <div class="radius-value">4px</div>
+      </div><div class="radius-card">
+        <div class="radius-demo" style="border-radius:8px;"></div>
+        <div class="radius-name">Standard module</div>
+        <div class="radius-value">8px</div>
+      </div><div class="radius-card">
+        <div class="radius-demo" style="border-radius:100px;"></div>
+        <div class="radius-name">Category rail</div>
+        <div class="radius-value">100px</div>
+      </div><div class="radius-card">
+        <div class="radius-demo" style="border-radius:100px;"></div>
+        <div class="radius-name">CTA pill</div>
+        <div class="radius-value">100px</div>
+      </div></div>
+    </div>
+  </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Components</h2>
+              <p class="section-subtitle">Buttons and cards use the documented height, weight, radius, colors, and surface treatment.</p>
+              <div class="component-card">
+    <div class="button-row">
+      <span class="cta cta-primary">&quot;Agregar al carrito&quot;</span>
+      <span class="cta cta-secondary">&quot;Aceptar&quot; (banner de cookies)</span>
+    </div>
+    <div class="card-preview">
+      <h4>System Card Preview</h4>
+      <p>fondo transparente, sin sombra visible en la tarjeta inspeccionada.</p>
+    </div>
+  </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">System Notes</h2>
+              <p class="section-subtitle">Responsive behavior and depth rules stay visible while keeping the overall proportions calm and readable.</p>
+              <div class="split-card">
+    <div>
+      <h3 class="token-heading">Breakpoints</h3>
+      <div class="mini-grid"><div class="mini-row">
+            <div class="mini-label">Mobile</div>
+            <div class="mini-content"><strong>745px inspeccionado</strong><br />Menú hamburguesa, barra de categorías desplazable, banners a ancho completo</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Tablet</div>
+            <div class="mini-content"><strong>Not observed</strong><br />—</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Desktop</div>
+            <div class="mini-content"><strong>Not observed</strong><br />—</div>
+          </div></div>
+    </div>
+    <div>
+      <h3 class="token-heading">Elevation</h3>
+      <div class="mini-grid"><div class="mini-row">
+            <div class="mini-label">Flat</div>
+            <div class="mini-content"><strong>Sin sombra</strong><br />Mayoría de contenido</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Ring</div>
+            <div class="mini-content"><strong>Not observed</strong><br />—</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Card</div>
+            <div class="mini-content"><strong>Not observed (sin sombra en tarjeta inspeccionada)</strong><br />—</div>
+          </div><div class="mini-row">
+            <div class="mini-label">Focus</div>
+            <div class="mini-content"><strong>Not observed</strong><br />—</div>
+          </div></div>
+    </div>
+  </div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-inner">
+              <h2 class="section-title">Prompt Guide</h2>
+              <p class="section-subtitle">Prompt snippets are shown in the same typography and spacing language as the extracted design system.</p>
+              <div class="prompt-list"><div class="prompt-card"><strong>Quick Summary</strong><p>Retail promocional en rojo. Header rojo sólido con buscador blanco y carrito. Hero de ofertas con texto en mayúsculas sobre foto de producto. Botones &quot;Agregar al carrito&quot; en píldora roja #D02D37 con Roboto 700. Tarjetas planas sin sombra. Tipografía Roboto para cuerpo y ClanOT para títulos. Densidad alta con muchos módulos y carruseles. Mensaje centrado en precio y cuotas sin intereses.</p></div><div class="prompt-card">
+            <strong>Hero</strong>
+            <p>&quot;Banner de ancho completo con fotografía de producto, titular en mayúsculas blanco en ClanOT 700, y una etiqueta de precio roja circular.&quot;</p>
+          </div><div class="prompt-card">
+            <strong>Card</strong>
+            <p>&quot;Tarjeta plana, sin sombra, con imagen, título en Roboto 700 y botón píldora rojo #D02D37 &#39;Agregar al carrito&#39;.&quot;</p>
+          </div><div class="prompt-card">
+            <strong>Navigation</strong>
+            <p>&quot;Header rojo #A83338 con menú, logo, buscador blanco redondeado y carrito; debajo barra horizontal de categorías en negrita.&quot;</p>
+          </div><div class="prompt-card">
+            <strong>Button or badge</strong>
+            <p>&quot;Botón píldora #D02D37, texto blanco Roboto 700 16px; badge de cuotas &#39;12 CUOTAS SIN INTERESES&#39; en rojo.&quot;</p>
+          </div><div class="prompt-card"><strong>Ready-to-Use Prompt</strong><p>Diseña una página de tienda en español con estética promocional de retail: header rojo sólido #A83338 con buscador blanco, carrito y barra de categorías en negrita. Hero de ancho completo con fotografía, titular en mayúsculas y precio destacado en círculo rojo #D02D37. Tarjetas de producto planas sin sombra, botón píldora rojo &quot;Agregar al carrito&quot;. Roboto para cuerpo, peso 700 para acciones. Densidad alta.</p></div></div>
+              <div class="split-card" style="margin-top:var(--space-4);">
+    <div>
+      <h3 class="token-heading">Do</h3>
+      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Usar el rojo como color de acción y promoción.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Mostrar precio y cuotas de forma prominente.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Usar Roboto 700 para botones y navegación.</div></div><div class="mini-row"><div class="mini-label">Do</div><div class="mini-content">Mantener las píldoras rojas para &quot;Agregar al carrito&quot;.</div></div></div>
+    </div>
+    <div>
+      <h3 class="token-heading">Don't</h3>
+      <div class="mini-grid"><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">No introducir sombras o bordes en tarjetas sin evidencia; el sitio observado es plano.</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">No usar tonos fríos como acento principal; el navy aparece solo como texto de apoyo.</div></div><div class="mini-row"><div class="mini-label">Don't</div><div class="mini-content">No mezclar más de un color de promoción en la misma banda.</div></div></div>
+    </div>
+  </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="source-shell">
+          <article class="panel">
+            <div class="source-header">
+              <div class="file-tabs">
+                <span class="file-tab active">DESIGN.md</span>
+              </div>
+            </div>
+            <div class="source-toolbar">
+              <div class="segmented" role="group" aria-label="View Switcher">
+                <button class="is-active" data-view="source" aria-pressed="true" aria-controls="sourceView" type="button">Source</button>
+                <button data-view="preview" aria-pressed="false" aria-controls="previewView" type="button">Preview</button>
+              </div>
+              <div class="toolbar-actions">
+                <button class="ghost-button" id="copyButton" type="button">Copy</button>
+                <a class="ghost-button" href="DESIGN.md" download>Open .md</a>
+                <span class="copy-state" id="copyState" role="status"></span>
+              </div>
+            </div>
+            <div class="source-body">
+              <pre class="source-view" id="sourceView"># Design System: Siman.com (El Salvador)
+
+## 1. Visual Theme &amp; Atmosphere
+
+Tienda online de retail masivo con estética promocional y comercial. Densa, saturada, orientada a ofertas: bandas de anuncios rojos, banners de campaña y un hero con producto y precio grande.
+
+- Overall feeling: enérgico, de oferta, cálido por el rojo dominante.
+- Visual density: alta. Muchos módulos, carruseles y tarjetas de producto.
+- Brand posture: retail accesible; el precio y las cuotas sin intereses son el mensaje principal.
+- Signature motifs: barra superior roja con promo, logo &quot;S&quot; en rombo, chip de cuotas &quot;12 CUOTAS&quot; en rojo, precio grande en círculo/etiqueta roja, botón &quot;Agregar al carrito&quot; en píldora roja.
+
+### Key Characteristics
+
+- Cabecera roja sólida con buscador blanco redondeado y carrito a la derecha.
+- Barra de categorías horizontal debajo del header, con enlaces en negrita y emojis ocasionales.
+- Banners de campaña a ancho completo (rojo, dorado navideño, fotografía de producto).
+- Tipografía sans-serif neutra (Roboto) para casi todo el contenido.
+- Botones de acción en rojo con forma de píldora.
+
+## 2. Color Palette &amp; Roles
+
+Valores obtenidos de estilos computados en la página.
+
+| Role | Semantic Name | Value | Usage |
+| --- | --- | --- | --- |
+| Primary action | Promo Red | `#D02D37` (rgb 208, 45, 55) | Botón &quot;Agregar al carrito&quot;, chips de cuotas |
+| Brand surface | Header Red | `#A83338` (rgb 168, 51, 56) | Fondo del header principal |
+| Accent | Brand Wine | `#A93239` (rgb 169, 50, 57) | Iconos y acentos sobre fondo claro |
+| Text | Ink Black | `#000000` | Texto de cuerpo por defecto |
+| Text secondary | Charcoal | `#3F3F40` (rgb 63, 63, 64) | Títulos (h1) |
+| Text tertiary | Gray 100 | `#646464` | Metadatos |
+| Navy | Deep Navy | `#001A70` (rgb 0, 26, 112) | Texto de acento en secciones |
+| Surface | White | `#FFFFFF` | Fondo de página |
+| Surface soft | Mist | `#F1F1F1` / `#F9F9F9` | Fondos de bloques y botones secundarios |
+| Button neutral | Cookie Gray | `#EFEFEF` with `#051C2C` text | Botón &quot;Aceptar&quot; del banner de cookies |
+| Border | Not observed | — | — |
+
+### Primary
+
+- Promo Red `#D02D37`: acción principal y precios destacados.
+- Header Red `#A83338`: identidad de marca en la cabecera.
+
+### Interactive
+
+- Enlaces de texto: el azul por defecto del navegador (`rgb(0, 0, 238)`) aparece en gran parte de los enlaces; no es un token de marca claro.
+- Focus ring, hover colors: Not observed.
+
+### Neutral Scale
+
+- `#000000`, `#3F3F40`, `#646464`, `#B5B3B3`, `#F1F1F1`, `#F9F9F9`.
+
+### Surface &amp; Overlay
+
+- Banner de cookies: panel oscuro semitransparente sobre el hero.
+
+### Theme Modes
+
+Solo se inspeccionó el modo claro. Modo oscuro: no observado.
+
+#### Light Mode
+
+- Background: `#FFFFFF`
+- Surface: `#F1F1F1`
+- Text: `#000000`
+- Accent: `#D02D37`
+- Notes: modo único inspeccionado.
+
+### Shadows &amp; Depth
+
+- Bordes: sin borde visible en tarjetas de producto.
+- Sombra de tarjetas: none observado en la tarjeta inspeccionada.
+- Focus treatment: Not observed.
+
+## 3. Typography Rules
+
+Sistema de dos familias: Roboto para cuerpo y componentes, y ClanOT (con fallback Arial) en títulos.
+
+### Font Family
+
+- Primary: Roboto, sans-serif (cuerpo, navegación, botones).
+- Display: ClanOT, Arial (h1 y encabezados de página).
+- Monospace: no aplica.
+- OpenType Features: Not observed.
+
+### Hierarchy
+
+| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| Hero headline | ClanOT | Not observed | 700 | Not observed | Not observed | Mayúsculas, texto sobre imagen del hero |
+| Section heading | Roboto | Not observed | 700 | Not observed | Not observed | Títulos de módulo: &quot;Lo último en tecnología&quot; |
+| Body | Roboto | 16px | 400 | 18.4px (body) | Not observed | Texto general |
+| Button | Roboto | 16px | 700 | Not observed | Not observed | &quot;Agregar al carrito&quot; |
+| Nav / Category | Roboto | Not observed | 700 | Not observed | Not observed | Categorías en la barra superior |
+| Caption / Meta | Roboto | 12px | 700 | Not observed | Not observed | Texto de botón del banner de cookies |
+
+### Principles
+
+- Peso 700 para acciones y navegación; el contraste viene del peso, no del tamaño.
+- Mayúsculas reservadas al hero para tono de campaña.
+- Precios grandes como elemento tipográfico principal de la tarjeta de producto.
+
+## 4. Component Stylings
+
+### Buttons and Links
+
+**Primary CTA**
+
+- Label: &quot;Agregar al carrito&quot;
+- Background: `#D02D37`
+- Text: `#FFFFFF`
+- Radius: 100px (píldora)
+- Height: Not observed
+- Text style: Roboto 16px, 700
+
+**Secondary CTA**
+
+- Label: &quot;Aceptar&quot; (banner de cookies)
+- Background: `#EFEFEF`
+- Text: `#051C2C`
+- Ring: Not observed
+- Radius: 4px
+- Height: Not observed
+- Text style: 12px, 700
+
+**Link Behavior**
+
+- Text links: azul por defecto en enlaces de contenido.
+- Hover and active feel: Not observed.
+
+### Cards and Containers
+
+- Surface style: fondo transparente, sin sombra visible en la tarjeta inspeccionada.
+- Radius: Not observed.
+- Border: none.
+- Shadow or elevation: none.
+- Internal spacing: Not observed.
+
+### Inputs and Interactive Controls
+
+- Input treatment: buscador blanco con radio alto, texto placeholder &quot;Buscar&quot;.
+- Focus behavior: Not observed.
+- Selection states: Not observed.
+
+### Navigation
+
+- Structure: header rojo con menú hamburguesa, logo, buscador y carrito; debajo, barra de categorías desplazable horizontalmente.
+- Background treatment: sólido `#A83338`.
+- Link style: texto blanco con íconos y emojis.
+- Sticky or scroll behavior: Not observed.
+
+### Image Treatment
+
+- Screenshot treatment: fotografía de producto y ambiente, sin marco.
+- Photography or illustration style: fotos de producto en escena (sala, cocina) y banners ilustrados para campañas navideñas.
+- Border and radius treatment: Not observed.
+
+### Distinctive Components
+
+- Banda de anuncio superior con cuotas (&quot;HASTA 12 CUOTAS SIN INTERESES&quot;).
+- Hero de ofertas con texto en mayúsculas sobre fotografía y tarjeta de precio.
+- Carrusel de categorías con encabezados H3 (&quot;Lo último en tecnología&quot;, &quot;Lo mejor para tu hogar&quot;).
+- Badge circular rojo con precio o descuento.
+
+## 5. Layout Principles
+
+### Spacing System
+
+- Base unit: Not observed.
+- Repeated spacing values: Not observed con precisión.
+
+### Grid &amp; Container
+
+- Grid logic: bloques de ancho completo con carruseles y cuadrículas de producto.
+- Max content width: Not observed.
+- Section spacing: Not observed.
+
+### Whitespace Philosophy
+
+- Whitespace philosophy: densidad alta, poco aire entre módulos.
+- Alignment tendencies: centrado en el hero, izquierda en listas y categorías.
+- Content width behavior: a ancho completo en banners.
+
+### Border Radius Scale
+
+- Micro: 4px (botones secundarios)
+- Standard: Not observed
+- Large: Not observed
+- Pill: 100px (CTA principal)
+
+## 6. Depth &amp; Elevation
+
+| Level | Treatment | Use |
+| --- | --- | --- |
+| Flat | Sin sombra | Mayoría de contenido |
+| Ring | Not observed | — |
+| Card | Not observed (sin sombra en tarjeta inspeccionada) | — |
+| Focus | Not observed | — |
+
+### Depth Principles
+
+- Surface hierarchy: plana; la jerarquía viene del color rojo y del contraste.
+- Shadow language: no observado.
+- Blur, glass, or overlay behavior: el banner de cookies usa un panel oscuro semitransparente.
+- When depth is used versus avoided: evitado en contenido; usado solo en superposiciones.
+
+## 7. Do&#39;s and Don&#39;ts
+
+### Do
+
+- Usar el rojo como color de acción y promoción.
+- Mostrar precio y cuotas de forma prominente.
+- Usar Roboto 700 para botones y navegación.
+- Mantener las píldoras rojas para &quot;Agregar al carrito&quot;.
+
+### Don&#39;t
+
+- No introducir sombras o bordes en tarjetas sin evidencia; el sitio observado es plano.
+- No usar tonos fríos como acento principal; el navy aparece solo como texto de apoyo.
+- No mezclar más de un color de promoción en la misma banda.
+
+## 8. Responsive Behavior
+
+Solo se inspeccionó un ancho de viewport de 745px (el intento de redimensionar a 1440px no tuvo efecto en esta sesión). Los breakpoints no están verificados.
+
+### Breakpoints
+
+| Name | Width | Key Changes |
+| --- | --- | --- |
+| Mobile | 745px inspeccionado | Menú hamburguesa, barra de categorías desplazable, banners a ancho completo |
+| Tablet | Not observed | — |
+| Desktop | Not observed | — |
+
+### Touch Targets
+
+- Not observed.
+
+### Collapsing Strategy
+
+- Desktop behavior: Not observed.
+- Tablet behavior: Not observed.
+- Mobile behavior: header en una fila con buscador; categorías en barra horizontal.
+- Breakpoint-driven component changes: Not observed.
+- Touch target and spacing adjustments: Not observed.
+
+## 9. Agent Prompt Guide
+
+### Quick Color Reference
+
+- Primary CTA: `#D02D37`
+- Background: `#FFFFFF`
+- Heading text: `#3F3F40`
+- Body text: `#000000`
+- Border or ring: Not observed
+- Accent: `#A83338` (header), `#001A70` (navy de apoyo)
+
+### Quick Summary
+
+Retail promocional en rojo. Header rojo sólido con buscador blanco y carrito. Hero de ofertas con texto en mayúsculas sobre foto de producto. Botones &quot;Agregar al carrito&quot; en píldora roja `#D02D37` con Roboto 700. Tarjetas planas sin sombra. Tipografía Roboto para cuerpo y ClanOT para títulos. Densidad alta con muchos módulos y carruseles. Mensaje centrado en precio y cuotas sin intereses.
+
+### Example Component Prompts
+
+- Hero: &quot;Banner de ancho completo con fotografía de producto, titular en mayúsculas blanco en ClanOT 700, y una etiqueta de precio roja circular.&quot;
+- Card: &quot;Tarjeta plana, sin sombra, con imagen, título en Roboto 700 y botón píldora rojo #D02D37 &#39;Agregar al carrito&#39;.&quot;
+- Navigation: &quot;Header rojo #A83338 con menú, logo, buscador blanco redondeado y carrito; debajo barra horizontal de categorías en negrita.&quot;
+- Button or badge: &quot;Botón píldora #D02D37, texto blanco Roboto 700 16px; badge de cuotas &#39;12 CUOTAS SIN INTERESES&#39; en rojo.&quot;
+
+### Ready-to-Use Prompt
+
+Diseña una página de tienda en español con estética promocional de retail: header rojo sólido `#A83338` con buscador blanco, carrito y barra de categorías en negrita. Hero de ancho completo con fotografía, titular en mayúsculas y precio destacado en círculo rojo `#D02D37`. Tarjetas de producto planas sin sombra, botón píldora rojo &quot;Agregar al carrito&quot;. Roboto para cuerpo, peso 700 para acciones. Densidad alta.
+
+### Iteration Guide
+
+1. Mantener el rojo como único color de acción.
+2. Preferir superficies planas; no añadir sombras.
+3. Priorizar precio y cuotas sobre descripción.
+
+## Optional Appendix: Interaction Patterns
+
+- Scroll behavior: Not observed (barra de categorías desplazable horizontal).
+- Hover behavior: Not observed.
+- Click behavior: Not observed.
+- Animation tone: Not observed.
+
+## Optional Appendix: Content &amp; Messaging Patterns
+
+- Headline pattern: mayúsculas y promesa de ahorro (&quot;OFERTAS QUE RENUEVAN TU HOGAR&quot;, &quot;INICIAN LOS AHORROS ESPECTACULARES&quot;).
+- CTA language: &quot;Agregar al carrito&quot;, &quot;Shop the look&quot;, &quot;Ver más&quot; (no verificado).
+- Trust signal pattern: cuotas sin intereses y &quot;SIMAN PRO&quot;.
+- Voice and tone: promocional, directo, en español de El Salvador.
+
+## Optional Appendix: Observed Pages
+
+| URL | Inspected widths | Scope and limitations |
+| --- | --- | --- |
+| https://sv.siman.com/ | 745px (viewport) | Solo página de inicio, estado inicial con banner de cookies visible. Sin scroll completo, sin hover, sin páginas internas, sin modo oscuro. |
+
+## Optional Appendix: Evidence Notes
+
+- Observed: colores de header, botón de compra y texto por estilos computados; Roboto y ClanOT como familias; cabecera roja con buscador; banners de campaña; botones píldora.
+- Inferred: tono promocional y jerarquía basados en la composición de la portada.
+- Not inspected: escritorio (1440px), scroll completo, tarjetas de producto en detalle, estados hover/focus, modo oscuro, páginas internas, espaciado y radios exactos.
+</pre>
+              <article class="rendered-view" id="previewView" hidden><section><h2>1. Visual Theme &amp; Atmosphere</h2><p>Tienda online de retail masivo con estética promocional y comercial. Densa, saturada, orientada a ofertas: bandas de anuncios rojos, banners de campaña y un hero con producto y precio grande.</p><ul><li>Overall feeling: enérgico, de oferta, cálido por el rojo dominante.</li><li>Visual density: alta. Muchos módulos, carruseles y tarjetas de producto.</li><li>Brand posture: retail accesible; el precio y las cuotas sin intereses son el mensaje principal.</li><li>Signature motifs: barra superior roja con promo, logo &quot;S&quot; en rombo, chip de cuotas &quot;12 CUOTAS&quot; en rojo, precio grande en círculo/etiqueta roja, botón &quot;Agregar al carrito&quot; en píldora roja.</li></ul><h3>Key Characteristics</h3><ul><li>Cabecera roja sólida con buscador blanco redondeado y carrito a la derecha.</li><li>Barra de categorías horizontal debajo del header, con enlaces en negrita y emojis ocasionales.</li><li>Banners de campaña a ancho completo (rojo, dorado navideño, fotografía de producto).</li><li>Tipografía sans-serif neutra (Roboto) para casi todo el contenido.</li><li>Botones de acción en rojo con forma de píldora.</li></ul></section><section><h2>2. Color Palette &amp; Roles</h2><p>Valores obtenidos de estilos computados en la página.</p><table><thead><tr><th>Role</th><th>Semantic Name</th><th>Value</th><th>Usage</th></tr></thead><tbody><tr><td>Primary action</td><td>Promo Red</td><td><code>#D02D37</code> (rgb 208, 45, 55)</td><td>Botón &quot;Agregar al carrito&quot;, chips de cuotas</td></tr><tr><td>Brand surface</td><td>Header Red</td><td><code>#A83338</code> (rgb 168, 51, 56)</td><td>Fondo del header principal</td></tr><tr><td>Accent</td><td>Brand Wine</td><td><code>#A93239</code> (rgb 169, 50, 57)</td><td>Iconos y acentos sobre fondo claro</td></tr><tr><td>Text</td><td>Ink Black</td><td><code>#000000</code></td><td>Texto de cuerpo por defecto</td></tr><tr><td>Text secondary</td><td>Charcoal</td><td><code>#3F3F40</code> (rgb 63, 63, 64)</td><td>Títulos (h1)</td></tr><tr><td>Text tertiary</td><td>Gray 100</td><td><code>#646464</code></td><td>Metadatos</td></tr><tr><td>Navy</td><td>Deep Navy</td><td><code>#001A70</code> (rgb 0, 26, 112)</td><td>Texto de acento en secciones</td></tr><tr><td>Surface</td><td>White</td><td><code>#FFFFFF</code></td><td>Fondo de página</td></tr><tr><td>Surface soft</td><td>Mist</td><td><code>#F1F1F1</code> / <code>#F9F9F9</code></td><td>Fondos de bloques y botones secundarios</td></tr><tr><td>Button neutral</td><td>Cookie Gray</td><td><code>#EFEFEF</code> with <code>#051C2C</code> text</td><td>Botón &quot;Aceptar&quot; del banner de cookies</td></tr><tr><td>Border</td><td>Not observed</td><td>—</td><td>—</td></tr></tbody></table><h3>Primary</h3><ul><li>Promo Red <code>#D02D37</code>: acción principal y precios destacados.</li><li>Header Red <code>#A83338</code>: identidad de marca en la cabecera.</li></ul><h3>Interactive</h3><ul><li>Enlaces de texto: el azul por defecto del navegador (<code>rgb(0, 0, 238)</code>) aparece en gran parte de los enlaces; no es un token de marca claro.</li><li>Focus ring, hover colors: Not observed.</li></ul><h3>Neutral Scale</h3><ul><li><code>#000000</code>, <code>#3F3F40</code>, <code>#646464</code>, <code>#B5B3B3</code>, <code>#F1F1F1</code>, <code>#F9F9F9</code>.</li></ul><h3>Surface &amp; Overlay</h3><ul><li>Banner de cookies: panel oscuro semitransparente sobre el hero.</li></ul><h3>Theme Modes</h3><p>Solo se inspeccionó el modo claro. Modo oscuro: no observado.</p><h4>Light Mode</h4><ul><li>Background: <code>#FFFFFF</code></li><li>Surface: <code>#F1F1F1</code></li><li>Text: <code>#000000</code></li><li>Accent: <code>#D02D37</code></li><li>Notes: modo único inspeccionado.</li></ul><h3>Shadows &amp; Depth</h3><ul><li>Bordes: sin borde visible en tarjetas de producto.</li><li>Sombra de tarjetas: none observado en la tarjeta inspeccionada.</li><li>Focus treatment: Not observed.</li></ul></section><section><h2>3. Typography Rules</h2><p>Sistema de dos familias: Roboto para cuerpo y componentes, y ClanOT (con fallback Arial) en títulos.</p><h3>Font Family</h3><ul><li>Primary: Roboto, sans-serif (cuerpo, navegación, botones).</li><li>Display: ClanOT, Arial (h1 y encabezados de página).</li><li>Monospace: no aplica.</li><li>OpenType Features: Not observed.</li></ul><h3>Hierarchy</h3><table><thead><tr><th>Role</th><th>Font</th><th>Size</th><th>Weight</th><th>Line Height</th><th>Letter Spacing</th><th>Notes</th></tr></thead><tbody><tr><td>Hero headline</td><td>ClanOT</td><td>Not observed</td><td>700</td><td>Not observed</td><td>Not observed</td><td>Mayúsculas, texto sobre imagen del hero</td></tr><tr><td>Section heading</td><td>Roboto</td><td>Not observed</td><td>700</td><td>Not observed</td><td>Not observed</td><td>Títulos de módulo: &quot;Lo último en tecnología&quot;</td></tr><tr><td>Body</td><td>Roboto</td><td>16px</td><td>400</td><td>18.4px (body)</td><td>Not observed</td><td>Texto general</td></tr><tr><td>Button</td><td>Roboto</td><td>16px</td><td>700</td><td>Not observed</td><td>Not observed</td><td>&quot;Agregar al carrito&quot;</td></tr><tr><td>Nav / Category</td><td>Roboto</td><td>Not observed</td><td>700</td><td>Not observed</td><td>Not observed</td><td>Categorías en la barra superior</td></tr><tr><td>Caption / Meta</td><td>Roboto</td><td>12px</td><td>700</td><td>Not observed</td><td>Not observed</td><td>Texto de botón del banner de cookies</td></tr></tbody></table><h3>Principles</h3><ul><li>Peso 700 para acciones y navegación; el contraste viene del peso, no del tamaño.</li><li>Mayúsculas reservadas al hero para tono de campaña.</li><li>Precios grandes como elemento tipográfico principal de la tarjeta de producto.</li></ul></section><section><h2>4. Component Stylings</h2><h3>Buttons and Links</h3><p><strong>Primary CTA</strong></p><ul><li>Label: &quot;Agregar al carrito&quot;</li><li>Background: <code>#D02D37</code></li><li>Text: <code>#FFFFFF</code></li><li>Radius: 100px (píldora)</li><li>Height: Not observed</li><li>Text style: Roboto 16px, 700</li></ul><p><strong>Secondary CTA</strong></p><ul><li>Label: &quot;Aceptar&quot; (banner de cookies)</li><li>Background: <code>#EFEFEF</code></li><li>Text: <code>#051C2C</code></li><li>Ring: Not observed</li><li>Radius: 4px</li><li>Height: Not observed</li><li>Text style: 12px, 700</li></ul><p><strong>Link Behavior</strong></p><ul><li>Text links: azul por defecto en enlaces de contenido.</li><li>Hover and active feel: Not observed.</li></ul><h3>Cards and Containers</h3><ul><li>Surface style: fondo transparente, sin sombra visible en la tarjeta inspeccionada.</li><li>Radius: Not observed.</li><li>Border: none.</li><li>Shadow or elevation: none.</li><li>Internal spacing: Not observed.</li></ul><h3>Inputs and Interactive Controls</h3><ul><li>Input treatment: buscador blanco con radio alto, texto placeholder &quot;Buscar&quot;.</li><li>Focus behavior: Not observed.</li><li>Selection states: Not observed.</li></ul><h3>Navigation</h3><ul><li>Structure: header rojo con menú hamburguesa, logo, buscador y carrito; debajo, barra de categorías desplazable horizontalmente.</li><li>Background treatment: sólido <code>#A83338</code>.</li><li>Link style: texto blanco con íconos y emojis.</li><li>Sticky or scroll behavior: Not observed.</li></ul><h3>Image Treatment</h3><ul><li>Screenshot treatment: fotografía de producto y ambiente, sin marco.</li><li>Photography or illustration style: fotos de producto en escena (sala, cocina) y banners ilustrados para campañas navideñas.</li><li>Border and radius treatment: Not observed.</li></ul><h3>Distinctive Components</h3><ul><li>Banda de anuncio superior con cuotas (&quot;HASTA 12 CUOTAS SIN INTERESES&quot;).</li><li>Hero de ofertas con texto en mayúsculas sobre fotografía y tarjeta de precio.</li><li>Carrusel de categorías con encabezados H3 (&quot;Lo último en tecnología&quot;, &quot;Lo mejor para tu hogar&quot;).</li><li>Badge circular rojo con precio o descuento.</li></ul></section><section><h2>5. Layout Principles</h2><h3>Spacing System</h3><ul><li>Base unit: Not observed.</li><li>Repeated spacing values: Not observed con precisión.</li></ul><h3>Grid &amp; Container</h3><ul><li>Grid logic: bloques de ancho completo con carruseles y cuadrículas de producto.</li><li>Max content width: Not observed.</li><li>Section spacing: Not observed.</li></ul><h3>Whitespace Philosophy</h3><ul><li>Whitespace philosophy: densidad alta, poco aire entre módulos.</li><li>Alignment tendencies: centrado en el hero, izquierda en listas y categorías.</li><li>Content width behavior: a ancho completo en banners.</li></ul><h3>Border Radius Scale</h3><ul><li>Micro: 4px (botones secundarios)</li><li>Standard: Not observed</li><li>Large: Not observed</li><li>Pill: 100px (CTA principal)</li></ul></section><section><h2>6. Depth &amp; Elevation</h2><table><thead><tr><th>Level</th><th>Treatment</th><th>Use</th></tr></thead><tbody><tr><td>Flat</td><td>Sin sombra</td><td>Mayoría de contenido</td></tr><tr><td>Ring</td><td>Not observed</td><td>—</td></tr><tr><td>Card</td><td>Not observed (sin sombra en tarjeta inspeccionada)</td><td>—</td></tr><tr><td>Focus</td><td>Not observed</td><td>—</td></tr></tbody></table><h3>Depth Principles</h3><ul><li>Surface hierarchy: plana; la jerarquía viene del color rojo y del contraste.</li><li>Shadow language: no observado.</li><li>Blur, glass, or overlay behavior: el banner de cookies usa un panel oscuro semitransparente.</li><li>When depth is used versus avoided: evitado en contenido; usado solo en superposiciones.</li></ul></section><section><h2>7. Do&#39;s and Don&#39;ts</h2><h3>Do</h3><ul><li>Usar el rojo como color de acción y promoción.</li><li>Mostrar precio y cuotas de forma prominente.</li><li>Usar Roboto 700 para botones y navegación.</li><li>Mantener las píldoras rojas para &quot;Agregar al carrito&quot;.</li></ul><h3>Don&#39;t</h3><ul><li>No introducir sombras o bordes en tarjetas sin evidencia; el sitio observado es plano.</li><li>No usar tonos fríos como acento principal; el navy aparece solo como texto de apoyo.</li><li>No mezclar más de un color de promoción en la misma banda.</li></ul></section><section><h2>8. Responsive Behavior</h2><p>Solo se inspeccionó un ancho de viewport de 745px (el intento de redimensionar a 1440px no tuvo efecto en esta sesión). Los breakpoints no están verificados.</p><h3>Breakpoints</h3><table><thead><tr><th>Name</th><th>Width</th><th>Key Changes</th></tr></thead><tbody><tr><td>Mobile</td><td>745px inspeccionado</td><td>Menú hamburguesa, barra de categorías desplazable, banners a ancho completo</td></tr><tr><td>Tablet</td><td>Not observed</td><td>—</td></tr><tr><td>Desktop</td><td>Not observed</td><td>—</td></tr></tbody></table><h3>Touch Targets</h3><ul><li>Not observed.</li></ul><h3>Collapsing Strategy</h3><ul><li>Desktop behavior: Not observed.</li><li>Tablet behavior: Not observed.</li><li>Mobile behavior: header en una fila con buscador; categorías en barra horizontal.</li><li>Breakpoint-driven component changes: Not observed.</li><li>Touch target and spacing adjustments: Not observed.</li></ul></section><section><h2>9. Agent Prompt Guide</h2><h3>Quick Color Reference</h3><ul><li>Primary CTA: <code>#D02D37</code></li><li>Background: <code>#FFFFFF</code></li><li>Heading text: <code>#3F3F40</code></li><li>Body text: <code>#000000</code></li><li>Border or ring: Not observed</li><li>Accent: <code>#A83338</code> (header), <code>#001A70</code> (navy de apoyo)</li></ul><h3>Quick Summary</h3><p>Retail promocional en rojo. Header rojo sólido con buscador blanco y carrito. Hero de ofertas con texto en mayúsculas sobre foto de producto. Botones &quot;Agregar al carrito&quot; en píldora roja <code>#D02D37</code> con Roboto 700. Tarjetas planas sin sombra. Tipografía Roboto para cuerpo y ClanOT para títulos. Densidad alta con muchos módulos y carruseles. Mensaje centrado en precio y cuotas sin intereses.</p><h3>Example Component Prompts</h3><ul><li>Hero: &quot;Banner de ancho completo con fotografía de producto, titular en mayúsculas blanco en ClanOT 700, y una etiqueta de precio roja circular.&quot;</li><li>Card: &quot;Tarjeta plana, sin sombra, con imagen, título en Roboto 700 y botón píldora rojo #D02D37 &#39;Agregar al carrito&#39;.&quot;</li><li>Navigation: &quot;Header rojo #A83338 con menú, logo, buscador blanco redondeado y carrito; debajo barra horizontal de categorías en negrita.&quot;</li><li>Button or badge: &quot;Botón píldora #D02D37, texto blanco Roboto 700 16px; badge de cuotas &#39;12 CUOTAS SIN INTERESES&#39; en rojo.&quot;</li></ul><h3>Ready-to-Use Prompt</h3><p>Diseña una página de tienda en español con estética promocional de retail: header rojo sólido <code>#A83338</code> con buscador blanco, carrito y barra de categorías en negrita. Hero de ancho completo con fotografía, titular en mayúsculas y precio destacado en círculo rojo <code>#D02D37</code>. Tarjetas de producto planas sin sombra, botón píldora rojo &quot;Agregar al carrito&quot;. Roboto para cuerpo, peso 700 para acciones. Densidad alta.</p><h3>Iteration Guide</h3><ol><li>Mantener el rojo como único color de acción.</li><li>Preferir superficies planas; no añadir sombras.</li><li>Priorizar precio y cuotas sobre descripción.</li></ol></section><section><h2>Optional Appendix: Interaction Patterns</h2><ul><li>Scroll behavior: Not observed (barra de categorías desplazable horizontal).</li><li>Hover behavior: Not observed.</li><li>Click behavior: Not observed.</li><li>Animation tone: Not observed.</li></ul></section><section><h2>Optional Appendix: Content &amp; Messaging Patterns</h2><ul><li>Headline pattern: mayúsculas y promesa de ahorro (&quot;OFERTAS QUE RENUEVAN TU HOGAR&quot;, &quot;INICIAN LOS AHORROS ESPECTACULARES&quot;).</li><li>CTA language: &quot;Agregar al carrito&quot;, &quot;Shop the look&quot;, &quot;Ver más&quot; (no verificado).</li><li>Trust signal pattern: cuotas sin intereses y &quot;SIMAN PRO&quot;.</li><li>Voice and tone: promocional, directo, en español de El Salvador.</li></ul></section><section><h2>Optional Appendix: Observed Pages</h2><table><thead><tr><th>URL</th><th>Inspected widths</th><th>Scope and limitations</th></tr></thead><tbody><tr><td>https://sv.siman.com/</td><td>745px (viewport)</td><td>Solo página de inicio, estado inicial con banner de cookies visible. Sin scroll completo, sin hover, sin páginas internas, sin modo oscuro.</td></tr></tbody></table></section><section><h2>Optional Appendix: Evidence Notes</h2><ul><li>Observed: colores de header, botón de compra y texto por estilos computados; Roboto y ClanOT como familias; cabecera roja con buscador; banners de campaña; botones píldora.</li><li>Inferred: tono promocional y jerarquía basados en la composición de la portada.</li><li>Not inspected: escritorio (1440px), scroll completo, tarjetas de producto en detalle, estados hover/focus, modo oscuro, páginas internas, espaciado y radios exactos.</li></ul></section></article>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const sourceView = document.getElementById("sourceView");
+      const previewView = document.getElementById("previewView");
+      const copyButton = document.getElementById("copyButton");
+      const copyState = document.getElementById("copyState");
+      const viewButtons = document.querySelectorAll("[data-view]");
+
+      function setActiveView(view) {
+        const showSource = view === "source";
+        sourceView.hidden = !showSource;
+        previewView.hidden = showSource;
+        viewButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.view === view);
+          button.setAttribute("aria-pressed", String(button.dataset.view === view));
+        });
+      }
+
+      viewButtons.forEach((button) => {
+        button.addEventListener("click", () => setActiveView(button.dataset.view));
+      });
+
+      copyButton.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(sourceView.textContent || "");
+          copyState.textContent = "Copied";
+        } catch (error) {
+          copyState.textContent = "Clipboard unavailable";
+        }
+
+        setTimeout(() => {
+          copyState.textContent = "";
+        }, 1400);
+      });
+    </script>
+  </body>
+</html>
