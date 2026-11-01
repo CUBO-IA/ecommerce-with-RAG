@@ -2,6 +2,7 @@ import { z } from "zod";
 import { embed } from "../ai/openrouter";
 import { db } from "../prisma/db";
 import { deleteImage, IMAGE_EXTENSIONS, imageUrl, uploadImage } from "../s3/client";
+import { lexicalProducts } from "./lexical";
 import { nearestProducts } from "./nearest";
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -60,7 +61,14 @@ export async function deleteProduct(id: number): Promise<boolean> {
   return true;
 }
 
-export async function searchProducts(query: string, { limit = 5, minPriceCents, maxPriceCents }: { limit?: number; minPriceCents?: number; maxPriceCents?: number } = {}) {
+type SearchOptions = { limit?: number; minPriceCents?: number; maxPriceCents?: number };
+
+export async function searchProductsByName(query: string, { limit = 5, minPriceCents, maxPriceCents }: SearchOptions = {}) {
+  const rows = await lexicalProducts(query, limit, { minPriceCents, maxPriceCents });
+  return rows.map(toPublic);
+}
+
+export async function searchProductsByMeaning(query: string, { limit = 5, minPriceCents, maxPriceCents }: SearchOptions = {}) {
   const vector = await embed(query);
   // ponytail: búsqueda por scan secuencial sobre embedding vector(2048); HNSW/IVFFlat no admiten >2000 dims. Subir con halfvec + HNSW, o usar un modelo de menos dimensiones.
   const rows = await nearestProducts(vector, limit, { minPriceCents, maxPriceCents });

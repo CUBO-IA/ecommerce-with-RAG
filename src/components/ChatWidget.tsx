@@ -96,7 +96,7 @@ export function ChatWidget() {
                 <div key={m.id} className={m.role === "user" ? "self-end rounded-full bg-promo px-4 py-2 text-sm font-bold text-white" : "flex flex-col gap-2 text-sm text-charcoal"}>
                   {m.parts.map((part, i) => {
                     if (part.type === "text") return <p key={i} className="whitespace-pre-wrap">{part.text}</p>;
-                    if (part.type === "tool-searchProducts" && part.state === "output-available") {
+                    if ((part.type === "tool-searchProductsByName" || part.type === "tool-searchProductsByMeaning") && part.state === "output-available") {
                       return <div key={i} className="flex flex-col gap-2">{part.output.map(card)}</div>;
                     }
                     if ((part.type === "tool-getProduct" || part.type === "tool-openProduct") && part.state === "output-available" && part.output) return card(part.output);

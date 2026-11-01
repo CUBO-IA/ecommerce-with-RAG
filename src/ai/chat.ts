@@ -1,14 +1,14 @@
 import { type InferUITools, tool, type UIMessage } from "ai";
 import { z } from "zod";
-import { getProduct, searchProducts } from "../products";
+import { getProduct, searchProductsByMeaning, searchProductsByName } from "../products";
 import { formatPrice } from "../products/format";
 
 // Instrucciones base del asistente. Reglas de comportamiento de la tienda.
 // Las técnicas de venta viven en SALES_GUIDE y se piden con getSalesGuide.
 export const SYSTEM_PROMPT = `Eres un vendedor amable de una tienda en línea. Responde siempre en español y con respuestas cortas.
-- Usa searchProducts antes de recomendar productos o dar precios.
+- Antes de recomendar productos o dar precios, busca con una de las dos herramientas de búsqueda: searchProductsByName si el cliente nombra un producto, marca o tipo exacto; searchProductsByMeaning si describe una necesidad o categoría general. Si la primera no devuelve nada útil, prueba la otra.
 - No inventes productos, precios, stock ni características que no vengan de las herramientas.
-- Si el cliente pone un límite de precio (p. ej. "menos de 20 dólares"), pasa minPrice o maxPrice a searchProducts en vez de filtrar tú. Solo cuenta y menciona los productos que devuelva la herramienta; si devuelve 4, di 4.
+- Si el cliente pone un límite de precio (p. ej. "menos de 20 dólares"), pasa minPrice o maxPrice a la búsqueda en vez de filtrar tú. Solo cuenta y menciona los productos que devuelva la herramienta; si devuelve 4, di 4.
 - Si no hay resultados relevantes, dilo y ofrece hacer otra búsqueda.
 - Los productos encontrados se muestran al cliente como tarjetas; no repitas sus datos en texto, solo di cuál encaja y por qué.
 - Si el cliente quiere ver un producto en detalle (o dice "ese", "el primero", etc.), usa openProduct con su id: lo lleva a la página del producto. Después confirma en una frase.
@@ -61,24 +61,37 @@ function toToolOutput({ id, name, description, priceCents, imageUrl }: ProductRo
   return { id, name, description, price: formatPrice(priceCents), imageUrl };
 }
 
+// Entrada común de las dos búsquedas. Los precios llegan en dólares.
+const priceSearchSchema = z.object({
+  query: z.string().trim().min(1).max(300),
+  minPrice: z.number().nonnegative().max(1_000_000).optional(),
+  maxPrice: z.number().nonnegative().max(1_000_000).optional(),
+});
+
+function toCents(minPrice?: number, maxPrice?: number) {
+  return {
+    minPriceCents: minPrice === undefined ? undefined : Math.round(minPrice * 100),
+    maxPriceCents: maxPrice === undefined ? undefined : Math.round(maxPrice * 100),
+  };
+}
+
 // Carrito que manda el cliente desde el navegador; se valida antes de usarlo.
 export const cartSchema = z.array(z.object({ id: z.number().int().positive(), quantity: z.number().int().positive().max(999) })).max(100);
 
 // Herramientas que el modelo puede llamar. Cada una describe cuándo usarla.
 export const chatTools = {
-  // Búsqueda en el catálogo. Los precios llegan en dólares y se pasan a centavos.
-  searchProducts: tool({
-    description: "Busca productos del catálogo por descripción en lenguaje natural. Precios opcionales en dólares, inclusivos.",
-    inputSchema: z.object({
-      query: z.string().trim().min(1).max(300),
-      minPrice: z.number().nonnegative().max(1_000_000).optional(),
-      maxPrice: z.number().nonnegative().max(1_000_000).optional(),
-    }),
-    execute: async ({ query, minPrice, maxPrice }) =>
-      (await searchProducts(query, {
-        minPriceCents: minPrice === undefined ? undefined : Math.round(minPrice * 100),
-        maxPriceCents: maxPrice === undefined ? undefined : Math.round(maxPrice * 100),
-      })).map(toToolOutput),
+  // Búsqueda por palabras exactas: nombre, marca o modelo que el cliente ya conoce.
+  searchProductsByName: tool({
+    description: "Busca productos por palabras del nombre o la descripción, como marca, modelo o tipo exacto (p. ej. 'licuadora Oster', 'cafetera de cápsulas'). Úsala cuando el cliente sabe lo que quiere. Precios opcionales en dólares, inclusivos.",
+    inputSchema: priceSearchSchema,
+    execute: async ({ query, minPrice, maxPrice }) => (await searchProductsByName(query, toCents(minPrice, maxPrice))).map(toToolOutput),
+  }),
+
+  // Búsqueda por significado: para necesidades o categorías genéricas.
+  searchProductsByMeaning: tool({
+    description: "Busca productos por significado, para necesidades o categorías generales (p. ej. 'cosas para la cocina', 'algo para cocinar rápido', 'electrodomésticos para el desayuno'). Úsala cuando el cliente describe lo que necesita sin nombrar un producto. Precios opcionales en dólares, inclusivos.",
+    inputSchema: priceSearchSchema,
+    execute: async ({ query, minPrice, maxPrice }) => (await searchProductsByMeaning(query, toCents(minPrice, maxPrice))).map(toToolOutput),
   }),
 
   // Abre la página de detalle. Devuelve null si el id no existe.

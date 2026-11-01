@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --env-file=.env.local --test src/products/nearest.test.mts",
+    "test": "node --env-file=.env.local --test src/products/nearest.test.mts src/products/lexical.test.mts",
     "postinstall": "prisma skills sync || exit 0"
   },
   "dependencies": {
