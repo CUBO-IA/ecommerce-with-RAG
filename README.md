@@ -6,6 +6,10 @@ Products and their embeddings are stored in PostgreSQL with pgvector. Product im
 
 The customer-facing catalog is served from `/`, with product pages under `/product/<id>` and the cart at `/cart`.
 
+## Homepage
+
+![Mini tienda storefront homepage with category navigation, product cards, and shopping assistant](docs/screenshots/homepage.png)
+
 ## Local development
 
 Follow the [local setup guide](docs/getting-started.md) to install dependencies, use Docker Compose for PostgreSQL and RustFS, apply the checked-in migrations, configure environment variables, and run the verification commands. From the repository root, the supported local services path is:
